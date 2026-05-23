@@ -7,33 +7,34 @@ import Slide from 'react-reveal/Slide';
 import airQualityImg from './images/air_quality.jpeg';
 import cdis from './images/cdis.png'
 import navigationAssistantImg from './images/navigation_assistant.jpg';
+import predVizTest from './images/pred_viz_test.png';
 
 function Project(project) {
   return (
-    <div className = "project-card">
-        <h1 className = "project-name">{project.name}</h1>
-        <p className = "project-description">{project.description}</p>
-        {project.image && <img src={project.image} alt={project.name} className="project-image" />}
-        {project.video && (
-          <iframe 
-            className="project-video"
-            src={project.video}
-            title={project.name}
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          />
-        )}
-        {project.link !== "" && (
-          <a href={project.link} target="_blank" rel="noreferrer">
-            <button className = "project-link">Link</button>
-          </a>
-        )}
-        
+    <div className="project-card">
+      <h1 className="project-name">{project.name}</h1>
+      <p className="project-description">{project.description}</p>
+      {project.image && <img src={project.image} alt={project.name} className="project-image" />}
+      {project.video && (
+        <iframe
+          className="project-video"
+          src={project.video}
+          title={project.name}
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+        />
+      )}
+      {project.link !== "" && (
+        <a href={project.link} target="_blank" rel="noreferrer">
+          <button className="project-link">Link</button>
+        </a>
+      )}
+
     </div>
   )
 }
-function ProjectsSection({projectsData}) {
+function ProjectsSection({ projectsData }) {
   return (
     <section className="projects-list">
       <div className="project-list">
@@ -46,7 +47,7 @@ function ProjectsSection({projectsData}) {
     </section>
   );
 }
-function HardwareSection({hardwareData}) {
+function HardwareSection({ hardwareData }) {
   return (
     <section className="hardware-list">
       <h1 className="header">Hardware</h1>
@@ -60,7 +61,7 @@ function HardwareSection({hardwareData}) {
     </section>
   );
 }
-function ResearchSection({researchData}) {
+function ResearchSection({ researchData }) {
   return (
     <section className="research-list">
       <h1 className="header">Research</h1>
@@ -75,16 +76,16 @@ function ResearchSection({researchData}) {
   );
 }
 
-function JustForFunSection({funData}) {
+function JustForFunSection({ funData }) {
   return (
     <section className="just-for-fun">
       <h1 className="header">Just for Fun</h1>
-      <div className="fun-facts-grid" style={{marginTop: "2em"}}>
+      <div className="fun-facts-grid" style={{ marginTop: "2em" }}>
         {funData.map((item, index) => (
           <Slide up key={index}>
-            <div className="fun-fact-card" style={{alignContent: "start"}}>
+            <div className="fun-fact-card" style={{ alignContent: "start" }}>
               <h3>{item.title}</h3>
-              <p style={{marginBottom: "1em"}}>{item.description}</p>
+              <p style={{ marginBottom: "1em" }}>{item.description}</p>
               {item.link && (
                 <a href={item.link} target="_blank" rel="noreferrer" className="project-link">
                   Check it out
@@ -116,7 +117,7 @@ function App() {
     },
     {
       name: "BlockBrain",
-      description:"A full-stack blockchain learning platform that incentivizes users with NFTs. Uses Cohere AI to grade answers that test user's understanding of content. Built using React, ChakraUI, Express, and MongoDB.",
+      description: "A full-stack blockchain learning platform that incentivizes users with NFTs. Uses Cohere AI to grade answers that test user's understanding of content. Built using React, ChakraUI, Express, and MongoDB.",
       link: "https://taikai.network/hackbox/hackathons/hawkhacks/projects/clwd3yico0ca5uc01z93z8sn3/idea"
     },
     {
@@ -166,6 +167,12 @@ function App() {
   ];
   const researchData = [
     {
+      name: "Vision and Image Processing Lab",
+      description: "Enhanced 3D U-Net performance for MRI segmentation through transfer learning and custom preprocessing; investigated the efficacy of VisionLLMs (SAM3) in clinical imaging tasks.",
+      image: predVizTest,
+      link: ""
+    },
+    {
       name: "MRI Imaging with Synthetic Correlated Diffusion Imaging",
       description: "Utitilized the CDIs imaging algorithm on human MRI scans to highlight potentially tumerous areas",
       link: "https://github.com/catai9/BrainCDIs",
@@ -190,12 +197,12 @@ function App() {
         <div className="main-header">
           <h1>Hello! My name is Andre.<span className="blink">|</span></h1>
           <h2>Systems Design Engineering Student @ uWaterloo</h2>
-          <div className = "icons">
-            <a href="https://www.linkedin.com/in/andre-ke/" target="_blank" rel="noreferrer"><img className = "icon" src={linkedin} alt="linkedin logo" width='50em' height='50em'></img></a>
-            <a href="https://github.com/nohyp3"target="_blank" rel="noreferrer"><img className = "icon" src={github} alt="github logo" width='50em' height='50em'></img></a>
-            <a className = "icon" href={resume} target="_blank" rel="noreferrer">Resume</a>
+          <div className="icons">
+            <a href="https://www.linkedin.com/in/andre-ke/" target="_blank" rel="noreferrer"><img className="icon" src={linkedin} alt="linkedin logo" width='50em' height='50em'></img></a>
+            <a href="https://github.com/andrxke" target="_blank" rel="noreferrer"><img className="icon" src={github} alt="github logo" width='50em' height='50em'></img></a>
+            <a className="icon" href={resume} target="_blank" rel="noreferrer">Resume</a>
           </div>
-        </div> 
+        </div>
       </div>
       <div className="projects">
         <h1 className="header">Projects</h1>
