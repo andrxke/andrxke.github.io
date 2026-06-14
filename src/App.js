@@ -8,6 +8,7 @@ import airQualityImg from './images/air_quality.jpeg';
 import cdis from './images/cdis.png'
 import navigationAssistantImg from './images/navigation_assistant.jpg';
 import predVizTest from './images/pred_viz_test.png';
+import pepper from './images/pepper.webp';
 
 function Project(project) {
   return (
@@ -101,13 +102,18 @@ function JustForFunSection({ funData }) {
 function App() {
   const projectsData = [
     {
+      name: "Content Wise",
+      description: "ContentWise is a locally-hosted browser extension and backend server designed to monitor user tab content and predict cognitive states (such as Focused, Lured, or Distracted). It leverages Meta's TRIBE v2 multimodal brain encoding foundation model to analyze what you are watching and listening to, predicting your level of engagement.",
+      link: "https://github.com/andrxke/content-wise",
+    },
+    {
       name: "Remote Operated Semantic Sketching",
       description: "A robot to help the visually impaired experience art through the sense of touch and sound. Winner of Hack the North 2025.",
       link: "https://devpost.com/software/ross-42pnvi"
     },
     {
       name: "Shelter",
-      description: "A full-stack ESG analyzer for ESG document releases from publically traded companies. Insert the link to the ESG report PDF to see scores for Environmental and Social Governance. Utilized Next.js, React, TypeScript and Tailwind to create the front end. In the back end, Cheerio, Axios, Tensor Flow, and Natural.js was used to analyze the reports.",
+      description: "A project to visualize data about shelters within the City of Toronto. Pulled data from the OpenData portal, saved data to a MongoDB database, and plotted data on usage and available beds for the past 7 days to help those in need find relevant, up to date information on shelters.",
       link: "https://shelter-ecru.vercel.app/"
     },
     {
@@ -132,18 +138,6 @@ function App() {
       //image: "project1.jpg",
       link: "https://devpost.com/software/sorting-the-6ix",
     },
-    {
-      name: "Posicise",
-      description: "Created a simple Android fitness App using Java and Android Studio",
-      //image: "project2.jpg",
-      link: "https://devpost.com/software/posicise",
-    },
-    {
-      name: "Youthfi",
-      description: "An experimental site that taught financial basics. Built to experiment with React. ",
-      link: "https://github.com/nohyp3/youthfi",
-
-    },
   ];
   const hardwareData = [
     {
@@ -167,6 +161,12 @@ function App() {
   ];
   const researchData = [
     {
+      name: "SIRRL - the Social and Intelligent Robotics Research Lab",
+      description: "Working on using a humaoid robot, Pepper to give feedback on body language as a public speaking coach for students",
+      image: pepper,
+      link: "https://uwaterloo.ca/social-intelligent-robotics-research-lab/profiles/andre-ke"
+    },
+    {
       name: "Vision and Image Processing Lab",
       description: "Enhanced 3D U-Net performance for MRI segmentation through transfer learning and custom preprocessing; investigated the efficacy of VisionLLMs (SAM3) in clinical imaging tasks.",
       image: predVizTest,
@@ -182,8 +182,8 @@ function App() {
 
   const funData = [
     {
-      title: "👁️ Open CV ",
-      description: "Created a program to manipulate images (turing image grayscale, rotating, detecting edges) using Open CV. Also implemented a prewitt operator to manually detect edges in an image without the OpenCV library"
+      title: "📚 I like to read! ",
+      description: "I like reading a variety of nonfictional titles, memoirs, theology,and classics. I don't really like reading modern fiction."
     },
     {
       title: "🏊 Swimming",
