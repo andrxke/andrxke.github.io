@@ -301,7 +301,8 @@ footer {
 
 .just-for-fun {
   background-color: #a0c4ff;
-  padding: 2em 0;
+  padding: 2em 0 5em;
+  min-height: 600px;
 }
 
 .fun-facts-grid {
