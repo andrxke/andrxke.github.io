@@ -1,14 +1,361 @@
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import resume from './resume.pdf';
 import linkedin from './icons/linkedin.svg';
 import github from './icons/github.svg';
-import react from './icons/react.svg';
 import Slide from 'react-reveal/Slide';
 import airQualityImg from './images/air_quality.jpeg';
 import cdis from './images/cdis.png'
 import navigationAssistantImg from './images/navigation_assistant.jpg';
 import predVizTest from './images/pred_viz_test.png';
 import pepper from './images/pepper.webp';
+
+const laptopFrames = [
+  `
+      .---------------------------.
+      | .-----------------------. |
+      | |                       | |
+      | | andre@dev:~$ _        | |
+      | |                       | |
+      | |                       | |
+      | '-----------------------' |
+      '---------------------------'
+     /:::::::::::::::::::::::::::::\\
+    /_______________________________\\
+`,
+  `
+      .---------------------------.
+      | .-----------------------. |
+      | |                       | |
+      | | andre@dev:~$          | |
+      | |                       | |
+      | |                       | |
+      | '-----------------------' |
+      '---------------------------'
+     /:::::::::::::::::::::::::::::\\
+    /_______________________________\\
+`
+];
+
+const front1 = `
+   +------------------------------------+
+   | [PWR]                 +-+ USB +-+  |
+   |                       +-+     +-+  |
+   |                                    |
+   | [ ]N/C                    AREF[ ]  |
+   | [ ]IOREF                   GND[ ]  |
+   | [ ]RST                      13[ ]  |
+   | [ ]3V3                      12[ ]  |
+   | [ ]5V      +---+            11[ ]~ |
+   | [ ]GND     | A |            10[ ]~ |
+   | [ ]GND     | R |             9[ ]~ |
+   | [ ]Vin     | M |             8[ ]  |
+   |            +---+                   |
+   | [ ]A0                        7[ ]  |
+   | [ ]A1                        6[ ]~ |
+   | [ ]A2                        5[ ]~ |
+   | [ ]A3                        4[ ]  |
+   | [ ]A4      [ ][ ]            3[ ]~ |
+   | [ ]A5      [ ][ ]            2[ ]  |
+   |            [ ][ ]       TX-> 1[ ]  |
+   |  ARDUINO                RX<- 0[ ]  |
+   \\____________________________________/
+`;
+
+const front2 = `
+     +------------------------------+
+     | [PWR]             +-+USB+-+  |
+     |                   +-+   +-+  |
+     |                              |
+     | [ ]N/C               AREF[ ] |
+     | [ ]IOREF              GND[ ] |
+     | [ ]RST                 13[ ] |
+     | [ ]3V3                 12[ ] |
+     | [ ]5V     +---+        11[ ]~|
+     | [ ]GND    | A |        10[ ]~|
+     | [ ]GND    | R |         9[ ]~|
+     | [ ]Vin    | M |         8[ ] |
+     |           +---+              |
+     | [ ]A0                   7[ ] |
+     | [ ]A1                   6[ ]~|
+     | [ ]A2                   5[ ]~|
+     | [ ]A3                   4[ ] |
+     | [ ]A4     [ ][]         3[ ]~|
+     | [ ]A5     [ ][]         2[ ] |
+     |           [ ][]    TX->1[ ]  |
+     | ARDUINO            RX<-0[ ]  |
+     \\______________________________/
+`;
+
+const front3 = `
+        +----------------------+
+        | [PW]        +-+USB+  |
+        |             +-+   +  |
+        |                      |
+        | []N/C         AREF[] |
+        | []IOR          GND[] |
+        | []RST           13[] |
+        | []3V3           12[] |
+        | []5V    +-+     11[]~|
+        | []GND   |A|     10[]~|
+        | []GND   |R|      9[]~|
+        | []Vin   |M|      8[] |
+        |         +-+          |
+        | []A0             7[] |
+        | []A1             6[]~|
+        | []A2             5[]~|
+        | []A3             4[] |
+        | []A4    [][]     3[]~|
+        | []A5    [][]     2[] |
+        |         [][] TX->1[] |
+        | ARDU             0[] |
+        \\______________________/
+`;
+
+const front4 = `
+           +----------------+
+           | [P]    +UB+    |
+           |        +  +    |
+           |                |
+           | []NC     ARF[] |
+           | []IO     GND[] |
+           | []RT      13[] |
+           | []3V      12[] |
+           | []5V +-+  11[]~|
+           | []GN |A|  10[]~|
+           | []GN |R|   9[]~|
+           | []Vi |M|   8[] |
+           |      +-+       |
+           | []A0       7[] |
+           | []A1       6[]~|
+           | []A2       5[]~|
+           | []A3       4[] |
+           | []A4 [][]  3[]~|
+           | []A5 [][]  2[] |
+           |      [][]  1[] |
+           | AR         0[] |
+           \\________________/
+`;
+
+const edge = `
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  |  |
+                  \\__/
+`;
+
+const back4 = `
+           +----------------+
+           | O [][][][] O   |
+           | TE     MADE    |
+           | SD     ITAL    |
+           | O         .+-+ |
+           |           .| | |
+           |           .|U| |
+           |            |S| |
+           |      .     |B| |
+           |      .     | | |
+           |            +-+ |
+           |                |
+           |                |
+           |      ..        |
+           |      ..        |
+           |                |
+           | [][][]     +-+ |
+           |           .|P| |
+           | [][]      .|W| |
+           | O         .|R| |
+           \\----------------/
+`;
+
+const back3 = `
+        +----------------------+
+        | O [][][][][][][] O   |
+        | (TE)     MADE IN     |
+        | SDF       ITALY      |
+        | O               ..+-+|
+        |                 ..| ||
+        |                 ..|U||
+        |                   |S||
+        |      ..           |B||
+        |      ..           | ||
+        |                   +-+|
+        |                      |
+        |                      |
+        |      ...             |
+        |      ...             |
+        |                      |
+        | [][][][][]       +-+ |
+        |                 ..|P||
+        | [][][][]        ..|W||
+        | O               ..|R||
+        \\----------------------/
+`;
+
+const back2 = `
+     +------------------------------+
+     | O [ ][ ][ ][ ][ ][ ][ ][ ] O |
+     | (T.E)         MADE IN        |
+     | S=DF           ITALY         |
+     | O                      . .+-+|
+     |                        . .| ||
+     |                        . .|U||
+     |                           |S||
+     |       . .                 |B||
+     |       . .                 | ||
+     |                           +-+|
+     |                              |
+     |                              |
+     |       . . . .                |
+     |       . . . .                |
+     |                              |
+     | [ ][ ][ ][ ][ ][ ]       +-+ |
+     |                       . .|P| |
+     | [ ][ ][ ][ ][ ]       . .|W| |
+     | O                     . .|R| |
+     \\------------------------------/
+`;
+
+const back1 = `
+   +------------------------------------+
+   | O [ ][ ][ ][ ][ ][ ][ ][ ][ ][ ] O |
+   | (T.E.)           MADE IN           |
+   | S=DF              ITALY            |
+   | O                          . . +-+ |
+   |                            . . | | |
+   |                            . . |U| |
+   |                                |S| |
+   |        . .                     |B| |
+   |        . .                     | | |
+   |                                +-+ |
+   |                                    |
+   |                                    |
+   |        . . . . .                   |
+   |        . . . . .                   |
+   |                                    |
+   | [ ][ ][ ][ ][ ][ ][ ][ ]       +-+ |
+   |                          . .   |P| |
+   | [ ][ ][ ][ ][ ][ ]       . .   |W| |
+   | O                        . .   |R| |
+   \\------------------------------------/
+`;
+
+const pcbFrames = [front1, front2, front3, front4, edge, back4, back3, back2, back1, back2, back3, back4, edge, front4, front3, front2];
+
+const smileFrames = [
+`
+   .-----.
+  /       \\
+ |  O   O  |
+ |    >    |
+ |  \\___/  |
+  \\       /
+   '-----'
+`,
+`
+   .-----.
+  /       \\
+ |  O   -  |
+ |    >    |
+ |  \\___/  |
+  \\       /
+   '-----'
+`
+];
+
+const flaskFrames = [
+  `
+    ===
+    | |
+   /   \\
+  /_____\\
+`,
+  `
+     ==
+     ||
+    /  \\
+   /____\\
+`,
+  `
+     =
+     |
+    / \\
+   /___\\
+`,
+  `
+     |
+     |
+     |
+     |
+`,
+  `
+     =
+     |
+    / \\
+   /___\\
+`,
+  `
+     ==
+     ||
+    /  \\
+   /____\\
+`
+];
+
+function AsciiAnimation({ frames, interval = 200 }) {
+  const [frameIndex, setFrameIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setFrameIndex((prev) => (prev + 1) % frames.length);
+    }, interval);
+    return () => clearInterval(timer);
+  }, [frames, interval]);
+
+  return (
+    <pre className="ascii-art">
+      {frames[frameIndex]}
+    </pre>
+  );
+}
+
+function CustomCursor() {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  return (
+    <div
+      className="custom-cursor"
+      style={{ left: `${position.x}px`, top: `${position.y}px` }}
+    />
+  );
+}
 
 function Project(project) {
   return (
@@ -51,7 +398,10 @@ function ProjectsSection({ projectsData }) {
 function HardwareSection({ hardwareData }) {
   return (
     <section className="hardware-list">
-      <h1 className="header">Hardware</h1>
+      <div className="section-header-container">
+        <h1 className="header">Hardware</h1>
+        <AsciiAnimation frames={pcbFrames} />
+      </div>
       <div className="project-list">
         {hardwareData.map((project) => (
           <Slide right>
@@ -65,7 +415,10 @@ function HardwareSection({ hardwareData }) {
 function ResearchSection({ researchData }) {
   return (
     <section className="research-list">
-      <h1 className="header">Research</h1>
+      <div className="section-header-container">
+        <h1 className="header">Research</h1>
+        <AsciiAnimation frames={flaskFrames} />
+      </div>
       <div className="project-list">
         {researchData.map((project) => (
           <Slide right>
@@ -80,7 +433,10 @@ function ResearchSection({ researchData }) {
 function JustForFunSection({ funData }) {
   return (
     <section className="just-for-fun">
-      <h1 className="header">Just for Fun</h1>
+      <div className="section-header-container">
+        <h1 className="header">Just for Fun</h1>
+        <AsciiAnimation frames={smileFrames} interval={800} />
+      </div>
       <div className="fun-facts-grid" style={{ marginTop: "2em" }}>
         {funData.map((item, index) => (
           <Slide up key={index}>
@@ -193,6 +549,7 @@ function App() {
 
   return (
     <div className="App">
+      <CustomCursor />
       <div className="hero-home">
         <div className="main-header">
           <h1>Hello! My name is Andre.<span className="blink">|</span></h1>
@@ -205,14 +562,14 @@ function App() {
         </div>
       </div>
       <div className="projects">
-        <h1 className="header">Projects</h1>
+        <div className="section-header-container">
+          <h1 className="header">Projects</h1>
+          <AsciiAnimation frames={laptopFrames} interval={600} />
+        </div>
         <ProjectsSection projectsData={projectsData} />
         <HardwareSection hardwareData={hardwareData} />
         <ResearchSection researchData={researchData} />
         <JustForFunSection funData={funData} />
-      </div>
-      <div className="footer">
-        <p>Built With</p> <img src={react}></img>
       </div>
     </div>
   );
